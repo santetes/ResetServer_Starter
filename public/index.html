@@ -2,11 +2,158 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Acceso Denegado</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="HandheldFriendly" content="true" />
+
+        <title>WEBSOCKET Math iink</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="./example.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+            integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X"
+            crossorigin="anonymous"
+        />
+
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+        <!-- <script type="text/javascript" src="../node_modules/iink-js/dist/iink.min.js"></script> -->
+        <script type="text/javascript" src="./iink_module/iink-js/dist/iink.min.js"></script>
     </head>
+
     <body>
-        <h1>Acceso Denegado</h1>
+        <div id="result"></div>
+        <div>
+            <nav>
+                <div class="button-div">
+                    <button id="clear" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                        <img src="./assets/img/clear.svg" />
+                    </button>
+                    <button id="undo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                        <img src="./assets/img/undo.svg" />
+                    </button>
+                    <button id="redo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                        <img src="./assets/img/redo.svg" />
+                    </button>
+                </div>
+                <div class="spacer"></div>
+                <button class="classic-btn" id="convert" disabled>Convert</button>
+            </nav>
+
+            <div class="row d-flex justify-content-around mt-5">
+                <div
+                    class="col-8 border border-dark border-3 rounded"
+                    id="editor"
+                    touch-action="none"
+                ></div>
+                <button id="incluir" class="col-3 btn btn-primary altura-400 fs-1">Incluir</button>
+            </div>
+            <hr />
+            <ul id="listado" class="list-group list-group-flush col-1"></ul>
+        </div>
+
+        <script>
+            const editorElement = document.getElementById('editor')
+            const resultElement = document.getElementById('result')
+            const undoElement = document.getElementById('undo')
+            const redoElement = document.getElementById('redo')
+            const clearElement = document.getElementById('clear')
+            const convertElement = document.getElementById('convert')
+
+            editorElement.addEventListener('changed', (event) => {
+                undoElement.disabled = !event.detail.canUndo
+                redoElement.disabled = !event.detail.canRedo
+                clearElement.disabled = event.detail.isEmpty
+            })
+
+            function cleanLatex(latexExport) {
+                if (latexExport.includes('\\\\')) {
+                    const steps = '\\begin{align*}' + latexExport + '\\end{align*}'
+                    return steps
+                        .replace('\\begin{aligned}', '')
+                        .replace('\\end{aligned}', '')
+                        .replace(new RegExp('(align.{1})', 'g'), 'aligned')
+                }
+                return latexExport.replace(new RegExp('(align.{1})', 'g'), 'aligned')
+            }
+
+            editorElement.addEventListener('exported', (evt) => {
+                const exports = evt.detail.exports
+                if (exports && exports['application/x-latex']) {
+                    convertElement.disabled = false
+                    katex.render(cleanLatex(exports['application/x-latex']), resultElement)
+                    // resultElement.innerHTML = '<span>' + exports['application/x-latex'] + '</span>';
+                } else if (exports && exports['application/mathml+xml']) {
+                    convertElement.disabled = false
+                    resultElement.innerText = exports['application/mathml+xml']
+                } else if (exports && exports['application/mathofficeXML']) {
+                    convertElement.disabled = false
+                    resultElement.innerText = exports['application/mathofficeXML']
+                } else {
+                    convertElement.disabled = true
+                    resultElement.innerHTML = ''
+                }
+            })
+            undoElement.addEventListener('click', () => {
+                editorElement.editor.undo()
+            })
+            redoElement.addEventListener('click', () => {
+                editorElement.editor.redo()
+            })
+            clearElement.addEventListener('click', () => {
+                editorElement.editor.clear()
+            })
+            convertElement.addEventListener('click', () => {
+                editorElement.editor.convert()
+            })
+
+            /**
+             * Attach an editor to the document
+             * @param {Element} The DOM element to attach the ink paper
+             * @param {Object} The recognition parameters
+             */
+            iink.register(editorElement, {
+                recognitionParams: {
+                    type: 'MATH',
+                    protocol: 'WEBSOCKET',
+                    server: {
+                        scheme: 'https',
+                        host: 'webdemoapi.myscript.com',
+                        applicationKey: '268994fa-9fa0-4572-90c1-d2b9cbfa8f4c',
+                        hmacKey: 'c2ba20f5-73e6-4fc0-ae4b-2986062eae04',
+                    },
+                    iink: {
+                        math: {
+                            mimeTypes: ['application/x-latex', 'application/vnd.myscript.jiix'],
+                        },
+                        export: {
+                            jiix: {
+                                strokes: true,
+                            },
+                        },
+                    },
+                },
+            })
+
+            window.addEventListener('resize', () => {
+                editorElement.editor.resize()
+            })
+        </script>
+        <script src="./index.js"></script>
     </body>
 </html>
