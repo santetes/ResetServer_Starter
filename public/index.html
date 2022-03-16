@@ -39,7 +39,7 @@
     <body>
         <div id="result"></div>
         <div>
-            <nav>
+            <!--   <nav>
                 <div class="button-div">
                     <button id="clear" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
                         <img src="./assets/img/clear.svg" />
@@ -53,7 +53,7 @@
                 </div>
                 <div class="spacer"></div>
                 <button class="classic-btn" id="convert" disabled>Convert</button>
-            </nav>
+            </nav> -->
 
             <div class="row d-flex justify-content-around mt-5">
                 <div
@@ -75,11 +75,11 @@
             const clearElement = document.getElementById('clear')
             const convertElement = document.getElementById('convert')
 
-            editorElement.addEventListener('changed', (event) => {
+            /* editorElement.addEventListener('changed', (event) => {
                 undoElement.disabled = !event.detail.canUndo
                 redoElement.disabled = !event.detail.canRedo
                 clearElement.disabled = event.detail.isEmpty
-            })
+            }) */
 
             function cleanLatex(latexExport) {
                 if (latexExport.includes('\\\\')) {
@@ -95,21 +95,21 @@
             editorElement.addEventListener('exported', (evt) => {
                 const exports = evt.detail.exports
                 if (exports && exports['application/x-latex']) {
-                    convertElement.disabled = false
+                    // convertElement.disabled = false
                     katex.render(cleanLatex(exports['application/x-latex']), resultElement)
                     // resultElement.innerHTML = '<span>' + exports['application/x-latex'] + '</span>';
                 } else if (exports && exports['application/mathml+xml']) {
-                    convertElement.disabled = false
+                    // convertElement.disabled = false
                     resultElement.innerText = exports['application/mathml+xml']
                 } else if (exports && exports['application/mathofficeXML']) {
-                    convertElement.disabled = false
+                    // convertElement.disabled = false
                     resultElement.innerText = exports['application/mathofficeXML']
                 } else {
-                    convertElement.disabled = true
+                    // convertElement.disabled = true
                     resultElement.innerHTML = ''
                 }
             })
-            undoElement.addEventListener('click', () => {
+            /* undoElement.addEventListener('click', () => {
                 editorElement.editor.undo()
             })
             redoElement.addEventListener('click', () => {
@@ -120,7 +120,7 @@
             })
             convertElement.addEventListener('click', () => {
                 editorElement.editor.convert()
-            })
+            }) */
 
             /**
              * Attach an editor to the document
