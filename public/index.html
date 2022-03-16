@@ -39,21 +39,13 @@
     <body>
         <div id="result"></div>
         <div>
-            <!--   <nav>
+            <nav>
                 <div class="button-div">
                     <button id="clear" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
                         <img src="./assets/img/clear.svg" />
                     </button>
-                    <button id="undo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
-                        <img src="./assets/img/undo.svg" />
-                    </button>
-                    <button id="redo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
-                        <img src="./assets/img/redo.svg" />
-                    </button>
                 </div>
-                <div class="spacer"></div>
-                <button class="classic-btn" id="convert" disabled>Convert</button>
-            </nav> -->
+            </nav>
 
             <div class="row d-flex justify-content-around mt-5">
                 <div
@@ -75,11 +67,9 @@
             const clearElement = document.getElementById('clear')
             const convertElement = document.getElementById('convert')
 
-            /* editorElement.addEventListener('changed', (event) => {
-                undoElement.disabled = !event.detail.canUndo
-                redoElement.disabled = !event.detail.canRedo
+            editorElement.addEventListener('changed', (event) => {
                 clearElement.disabled = event.detail.isEmpty
-            }) */
+            })
 
             function cleanLatex(latexExport) {
                 if (latexExport.includes('\\\\')) {
@@ -109,18 +99,10 @@
                     resultElement.innerHTML = ''
                 }
             })
-            /* undoElement.addEventListener('click', () => {
-                editorElement.editor.undo()
-            })
-            redoElement.addEventListener('click', () => {
-                editorElement.editor.redo()
-            })
+
             clearElement.addEventListener('click', () => {
                 editorElement.editor.clear()
             })
-            convertElement.addEventListener('click', () => {
-                editorElement.editor.convert()
-            }) */
 
             /**
              * Attach an editor to the document
