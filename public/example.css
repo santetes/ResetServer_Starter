@@ -35,16 +35,13 @@ nav {
     touch-action: none;
 }
 
-.altura-400 {
-    height: 400px;
-}
-
 #result {
-    height: 100px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: auto;
+    font-size: 30px;
 }
 
 .index-background {
@@ -146,9 +143,10 @@ nav {
 
 .nav-btn.btn-fab,
 .nav-btn.btn-fab-mini {
-    overflow: hidden;
-    position: relative;
-    margin: auto 12px auto auto;
+    /*  overflow: hidden;
+    position: relative; */
+    /* margin: 12px auto auto auto; */
+    margin-left: 35px;
     padding: 0;
     line-height: normal;
     border-radius: 50%;
@@ -161,13 +159,18 @@ nav {
     font-size: 28px;
 }
 .nav-btn.btn-fab-mini {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    font-size: 34px;
 }
 
 /* Buttons Color */
 .nav-btn.btn-lightBlue {
+    color: #fff;
+    background-color: #1a9fff;
+}
+
+.btn-lightBlue {
     color: #fff;
     background-color: #1a9fff;
 }
@@ -191,4 +194,8 @@ nav {
 .button-div {
     display: flex;
     margin: 5px;
+}
+/* =============CSS PERSONALIZADO============================================== */
+.altura-400 {
+    height: 400px;
 }

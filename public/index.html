@@ -37,29 +37,85 @@
     </head>
 
     <body>
-        <div id="result"></div>
-        <div>
-            <nav>
-                <div class="button-div">
-                    <button id="clear" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
-                        <img src="./assets/img/clear.svg" />
-                    </button>
-                </div>
-            </nav>
+        <button id="clear" class="nav-btn btn-fab-mini btn-lightBlue mt-2" disabled>
+            <img src="./assets/img/clear.svg" />
+        </button>
 
-            <div class="row d-flex justify-content-around mt-5">
-                <div
-                    class="col-8 border border-dark border-3 rounded"
-                    id="editor"
-                    touch-action="none"
-                ></div>
-                <button id="incluir" class="col-3 btn btn-primary altura-400 fs-1">Incluir</button>
-            </div>
-            <hr />
-            <ul id="listado" class="list-group list-group-flush col-1"></ul>
+        <div class="mt-2">
+            <div
+                class="col-11 border border-dark border-3 rounded mx-auto"
+                id="editor"
+                touch-action="none"
+            ></div>
+        </div>
+
+        <div class="row justify-content-center">
+            <button type="submit" id="incluir" class="col-10 p-3 mt-1 btn btn-lightBlue fs-1">
+                <span id="result"></span>
+            </button>
+        </div>
+
+        <hr />
+        <!-- ==============TABLA==================== -->
+        <div class="container">
+            <table id="tabla" class="table table-bordered mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th class="text-center" scope="col">Rep 1</th>
+                        <th class="text-center" scope="col">Rep 2</th>
+                        <th class="text-center" scope="col">Rep 3</th>
+                        <th class="text-center" scope="col">Rep 4</th>
+                        <th class="text-center" scope="col">Rep 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="fila" scope="row">Punto 1</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="fila" scope="row">Punto 2</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="fila" scope="row">Punto 3</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="fila" scope="row">Punto 4</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="fila" scope="row">Punto 5</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="btn-borrar" class="btn btn-danger d-none">Borrar Celda</button>
         </div>
 
         <script src="./iink_script.js"></script>
-        <script src="./index.js"></script>
+        <script src="./index.js" type="module"></script>
     </body>
 </html>
